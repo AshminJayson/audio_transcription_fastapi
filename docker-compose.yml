@@ -1,0 +1,6 @@
+version: '3'
+services:
+  transcription_app:
+    image: yt_to_text
+    ports:
+      - 80:80
