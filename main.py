@@ -3,6 +3,7 @@ import openai
 from fastapi import FastAPI
 from yt_dlp import YoutubeDL
 import uvicorn
+import whisper
 
 app = FastAPI()
 
@@ -33,10 +34,19 @@ async def get_transcription(url):
     URL = [url]
     with YoutubeDL(ydl_opts) as ydl:
         ydl.download(URL)
-        audio_file = open(f'{file_name}.m4a', 'rb')
-        transcript = openai.Audio.transcribe('whisper-1', audio_file)
 
-        return transcript
+        model = whisper.load_model("base")
+        result = model.transcribe(f"{file_name}.m4a")
+
+        # audio_file = open(f'{file_name}.m4a', 'rb')
+        # transcript = openai.Audio.transcribe('whisper-1', audio_file)
+
+        openai.Audio.transcribe()
+        with open(f'{file_name}.text', 'w') as f:
+            f.write(str(result))
+        segments = [{'start': i['start'], 'end': i['end'], 'text': i['text']}
+                    for i in result['segments']]
+        return segments
 
 
 if __name__ == '__main__':
