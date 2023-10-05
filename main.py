@@ -41,7 +41,6 @@ async def get_transcription(url):
         # audio_file = open(f'{file_name}.m4a', 'rb')
         # transcript = openai.Audio.transcribe('whisper-1', audio_file)
 
-        openai.Audio.transcribe()
         # with open(f'{file_name}.txt', 'w') as f:
         #     f.write(str(result))
         segments = [{'start': i['start'], 'end': i['end'], 'text': i['text']}
