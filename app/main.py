@@ -45,6 +45,7 @@ async def get_transcription(url):
         #     f.write(str(result))
         segments = [{'start': i['start'], 'end': i['end'], 'text': i['text']}
                     for i in result['segments']]
+        os.remove(f"{file_name}.m4a")
         return segments
 
 
